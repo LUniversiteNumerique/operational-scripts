@@ -28,6 +28,14 @@ get-ovh-bucket-status = s3api get-bucket-intelligent-tiering-configuration --id 
 delete-ovh-archive = s3api delete-bucket-intelligent-tiering-configuration --id ovh-cold-archive --bucket
 ```
 
+`~/.aws/credentials` file:
+
+```conf
+[default]
+aws_access_key_id = [REDACTED]
+aws_secret_access_key = [REDACTED]
+```
+
 `~/.aws/config` file:
 
 ```conf

@@ -37,22 +37,22 @@ check_rclone() {
 }
 
 check_bucket() {
-    local output=$(rclone lsd "$remote_name" 2>&1)
+    local output="$(rclone lsd "$RCLONE_PROFILE_NAME:" 2>&1)"
 
     # Check the exit status of the command
     if [ $? -ne 0 ]; then
         echo "Error running rclone lsd command:"
         echo "$output"
-        return 1
+        exit 1
     fi
 
     # Check if there's a line containing the bucket name
-    if echo "$output" | grep -q "[[:space:]]$RCLONE_BUCKET_NAME$"; then
-        echo "Found $RCLONE_BUCKET_NAME directory in $RCLONE_PROFILE_NAME"
+    if echo "$output" | grep -qw "$RCLONE_BUCKET_NAME"; then
+        echo "Bucket $RCLONE_PROFILE_NAME:$RCLONE_BUCKET_NAME was found"
         return 0
     else
-        echo "No rclone $RCLONE_PROFILE_NAME bucket found for $RCLONE_BUCKET_NAME."
-        return 1
+        echo "No bucket $RCLONE_PROFILE_NAME:$RCLONE_BUCKET_NAME found."
+        exit 1
     fi
 }
 
@@ -102,3 +102,5 @@ main() {
 
     echo "Rclone operations completed."
 }
+
+main
